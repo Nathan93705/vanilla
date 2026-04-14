@@ -26,13 +26,7 @@ class EnchantingTableTrait extends BlockTrait {
 
   public constructor(block: Block) {
     super(block);
-
-    this.container = new BlockContainer(
-      block,
-      ContainerType.Enchantment,
-      ContainerId.Ui,
-      2
-    );
+    this.container = new BlockContainer(block, ContainerType.Enchantment, 2);
   }
 
   public onInteract(options: BlockInteractionOptions): boolean | void {
@@ -61,7 +55,7 @@ class EnchantingTableTrait extends BlockTrait {
           [{ id: 9, level: 1 }],
           [],
           "mental galvanize elemental ",
-          233
+          233,
         ),
       ]);
     }

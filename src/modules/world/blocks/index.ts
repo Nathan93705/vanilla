@@ -1,13 +1,19 @@
 import { Plugin } from "@serenityjs/plugins";
 
-import { IVanillaModule } from "../../../types";
+import { EnchantingTableTrait } from "./enchanting-table";
+import { VanillaModule } from "../..";
+import { BlockTrait } from "@serenityjs/core";
 
-class BlocksModule implements IVanillaModule {
+/**
+ * List of traits for this module
+ */
+const TRAITS: Array<typeof BlockTrait> = [EnchantingTableTrait];
+
+class BlocksModule extends VanillaModule {
   public readonly name: string = "Blocks";
 
   public load(plugin: Plugin): void {
-    // TODO: Here we will load all the blocks,
-    // since the dynamic imports get sketchy, we'll need to import and load every block behavior.
+    for (const trait of TRAITS) plugin.blocks.registerTrait(trait);
   }
 }
 

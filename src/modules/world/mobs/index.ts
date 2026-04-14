@@ -1,20 +1,21 @@
 import { Plugin } from "@serenityjs/plugins";
 
-import { IVanillaModule } from "../../../types";
-
 import { GroundMobNavigation } from "./navigation/ground";
 import { MOBS } from "./mobs";
-import { EntityIdentifier, EntityType } from "@serenityjs/core";
+import { EntityIdentifier, EntityTrait, EntityType } from "@serenityjs/core";
+import { VanillaModule } from "../..";
 
-class MobModule implements IVanillaModule {
+/**
+ * List of traits for this module
+ */
+const TRAITS: Array<typeof EntityTrait> = [...MOBS, GroundMobNavigation];
+
+class MobsModule extends VanillaModule {
   public readonly name: string = "Mobs";
 
   public load(plugin: Plugin): void {
     // Register all mob traits
-    for (const MOB of MOBS) plugin.entities.registerTrait(MOB);
-
-    // Register ground mob navigation
-    plugin.entities.registerTrait(GroundMobNavigation);
+    for (const trait of TRAITS) plugin.entities.registerTrait(trait);
 
     // List of mobs that have climate variants
     const climateVariantMobs = [
@@ -29,10 +30,10 @@ class MobModule implements IVanillaModule {
       type.createEnumProperty(
         "minecraft:climate_variant",
         ["cold", "temperate", "warm"],
-        "temperate"
+        "temperate",
       );
     }
   }
 }
 
-export default new MobModule();
+export default new MobsModule();

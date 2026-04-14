@@ -1,26 +1,27 @@
-import { Plugin } from "@serenityjs/plugins";
-
-import { IVanillaModule } from "../../types";
+import { IVanillaCommand } from "../../types";
 
 import TestingCommand from "./testing";
-import { WorldEvent, WorldInitializeSignal } from "@serenityjs/core";
+import { WorldInitializeSignal } from "@serenityjs/core";
+import { VanillaModule } from "..";
+import sleepTest from "./sleepTest";
 
-class CommandsModule implements IVanillaModule {
+/**
+ * The list of all vanilla commands.
+ */
+const COMMANDS: Array<IVanillaCommand> = [TestingCommand, sleepTest];
+
+/**
+ * The vanilla commands module.
+ */
+class CommandsModule extends VanillaModule {
   public readonly name: string = "command";
-
-  public load(plugin: Plugin): void {
-    plugin.serenity.on(
-      WorldEvent.WorldInitialize,
-      this.onWorldInitialize.bind(this)
-    );
-  }
 
   /**
    * Handles the WorldInitialize event.
    * @param event The WorldInitialize event.
    */
-  private onWorldInitialize(event: WorldInitializeSignal): void {
-    TestingCommand.load(event.world);
+  public onWorldInitialize(event: WorldInitializeSignal): void {
+    for (const command of COMMANDS) command.load(event.world);
   }
 }
 

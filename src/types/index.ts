@@ -1,27 +1,14 @@
-import { CommandPalette, World } from "@serenityjs/core";
-import { Plugin } from "@serenityjs/plugins";
+import { World } from "@serenityjs/core";
 
 /**
- * Interface for a vanilla module.
+ * Interface for a vanilla command.
  */
-interface IVanillaModule {
-  /** The name of the module. */
-  name: string;
-
-  /**
-   * Loads the module.
-   * @param plugin The plugin instance to load the module into.
-   */
-  load(plugin: Plugin): void;
-}
-
-interface Configuration {
-  enabledModules: Array<string>;
-  disabledModules: Array<string>;
-}
-
 interface IVanillaCommand {
+  /**
+   * Loads the command.
+   * @param world The world instance to load the command into.
+   */
   load(world: World): void;
 }
 
-export { IVanillaModule, Configuration, IVanillaCommand };
+export { IVanillaCommand };
